@@ -1,0 +1,11 @@
+n = input;
+i = 1;
+sum = 0;
+
+while (n - i)   /*= while (n - i > 0)*/
+(
+    sum = sum + i;
+    i = i + 1;
+)
+
+output(sum);

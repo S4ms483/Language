@@ -1,3 +1,10 @@
 BackEnd/obj
 BackEnd/log
 BackEnd/Back
+.git copy/hooks
+.git copy/info
+.git copy/logs
+.git copy/objects
+.git copy/refs
+.git copy/COMMIT_EDITMSG
+.git copy
