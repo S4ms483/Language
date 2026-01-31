@@ -5,7 +5,7 @@
 
 #include "read.h"
 
-FILE* TreeToAsm(Ast* ast);
+void TreeToAsm(Ast* ast);
 
 const size_t codeSize = 50;
 static const char* const asmFile = "src/asm.txt";

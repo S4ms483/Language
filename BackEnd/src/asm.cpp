@@ -6,6 +6,8 @@
 #include <string.h>
 
 #include "node.h"
+#include "file.h"
+#include "visdump.h"
 
 static void NodeWrite(FILE* file, Ast* ast, Node* curr_node);
 static int FindVarInTable(Node* node, Ast* ast);
@@ -13,17 +15,17 @@ static void AddVarToTable(Node* node, Ast* ast);
 static void KeyNodeWrite(Node* node, FILE* file);
 
 
-FILE* TreeToAsm(Ast* ast) {
+void TreeToAsm(Ast* ast) {
     assert(ast != NULL);
 
     Node* root = ast->root;
+VisualDump(root, 0);
 
-    FILE* file = fopen(asmFile, "w");
+    char* asm_file = GetOutputFileName();
+    FILE* file = fopen(asm_file, "w");
     assert(file != NULL);
 
     NodeWrite(file, ast, root);
-
-    return file;
 }
 
 

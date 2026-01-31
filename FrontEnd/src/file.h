@@ -8,8 +8,10 @@
 char* FileRead(const char* file_name);
 char* CreateBuffer(const char* file);
 
-void FileOutput(Node* root, const char* file);
+void FileOutput(Node* root, char* file);
 void NodeOutput(Node* node, FILE* file, size_t rank);
+
+char* GetOutputFileName();
 
 static const char* const fileStr = "( \"%s\" ";
 static const char* const fileNum = "( \"%d\" ";

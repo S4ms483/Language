@@ -7,14 +7,13 @@
 #include "visdump.h"
 #include "asm.h"
 
-int main() {
-    char* buffer = FileInput("../FrontEnd/src/tree.txt"); 
+int main(int argc, char** argv) {
+    char* buffer = FileInput(argc, argv); 
 
     Ast* ast = CodeToAst(buffer);
-    VisualDump(ast->root, 0);
 
-    FILE* asm_file = TreeToAsm(ast);
+    TreeToAsm(ast);
 
-    free(buffer); 
     AstDestroy(ast);
+    free(buffer); 
 }

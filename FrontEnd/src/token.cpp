@@ -40,10 +40,10 @@ TArray* Lexer(int n_comm, char** line) {
     char* chr = buffer;
 
     TArray* array = TokenArrayInit();
+    RemoveComments(&chr);
 
     while (*chr != '\0') {
         SkipSpaces(&chr);
-        RemoveComments(&chr);
 
         if (isdigit(*chr)) {
             AddNumToken(array, &chr);
@@ -84,10 +84,7 @@ static void RemoveComments(char** chr) {
 
     while (start != NULL) {
         end = strstr(start, commEnd);
-        if (end == NULL) { 
-            end = strchr(*chr, '\0'); 
-            return;
-        }
+        if (end == NULL) { return; }
 
         memset(start, ' ', end - start + 2);
         start = strstr(end, commStart);
@@ -98,9 +95,7 @@ static void RemoveComments(char** chr) {
 static void SkipSpaces(char** chr) {
     assert((chr != NULL) && (*chr != NULL));
 
-    if (isspace(**chr)) {
-        while(isspace(**chr)) { (*chr)++; }
-    }
+    while(isspace(**chr)) { (*chr)++; }
 }
 
 
@@ -149,9 +144,9 @@ static TArray* TokenArrayInit() {
 static void TokenArrayAppend(TArray* array, Token* newToken) {
     assert((array != NULL) && (newToken != NULL));
 
-    if(array->size >= array->capacity) { 
+    if (array->size >= array->capacity) { 
         array->tokens = (Token**)realloc(array->tokens, (array->capacity) * 2 * sizeof(Token*));
-        array->capacity = array->capacity * 2;
+        array->capacity *= 2;
     }
     
     array->tokens[(array->size)] = newToken;  
@@ -163,7 +158,7 @@ static Type_t DefineKey(char* chr, int start, int end) {
     assert(chr != NULL);
 
     for (int i = start; i < end; i++) {
-        if ((chr - strstr(chr, Keys[i].keyName)) == 0) { return Keys[i].keyType; }
+        if (!strncmp(chr, Keys[i].keyName, strlen(Keys[i].keyName))) { return Keys[i].keyType; }
     }
 
     return Undef;
@@ -176,14 +171,12 @@ static void AddToken(TArray* array, char** chr, Type_t type) {
 
     TokenArrayAppend(array, TokenInit(type));
 
-    int keyNum = 0;
-
     for (int i = 0; i < wordsEnd; i++) {
-        if (Keys[i].keyType == type) { keyNum = i; } 
+        if (Keys[i].keyType == type) { 
+            (*chr) += strlen(Keys[i].keyName);
+            return;
+        } 
     }
-
-    size_t length = strlen(Keys[keyNum].keyName);
-    (*chr) += length;
 }
 
 
@@ -210,19 +203,20 @@ static void AddVarToken(TArray* array, char** chr) {
     size_t i = 0;
     size_t name_size = nameLen;
 
-    int curr_letter = (int)**chr;
+    char curr_letter = **chr;
 
     while (isalnum(curr_letter) || (curr_letter == '_')) {
         (*chr)++;
 
         if (i > nameLen - 2) {
             name = (char*)realloc(name, name_size + nameLen);
+            name_size += nameLen;
             assert(name != NULL);
         }
 
         name[i] = (char)curr_letter;
         i++;
-        curr_letter = (int)**chr;
+        curr_letter = **chr;
     }
 
     TokenArrayAppend(array, VarTokenInit(name));

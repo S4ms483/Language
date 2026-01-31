@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 
 #include "node.h"
+#include "visdump.h"
 
 char* FileRead(const char* file_name) {
     assert(file_name != NULL);
@@ -39,7 +40,7 @@ char* CreateBuffer(const char* file) {
 }
 
 
-void FileOutput(Node* root, const char* file) {
+void FileOutput(Node* root, char* file) {
     assert(root != NULL);
     assert(file != NULL);
 
@@ -49,13 +50,13 @@ void FileOutput(Node* root, const char* file) {
     size_t rank = 0;
 
     NodeOutput(root, wFile, rank);
+    free(file);
 }
 
 
 void NodeOutput(Node* node, FILE* file, size_t rank) {
     assert(node != NULL);
     assert(file != NULL);
-
     switch (node->type) {
         case (Num): {
             fprintf(file, fileNum, (node->value).num);
@@ -95,4 +96,17 @@ void NodeOutput(Node* node, FILE* file, size_t rank) {
     }
 
     fprintf(file, ")");
+}
+
+
+
+char* GetOutputFileName(){
+    printf("Enter name of the output file\n");
+    char* file_name = NULL;
+    size_t name_len = 0;
+
+    getline(&file_name, &name_len, stdin);
+    assert(file_name != NULL);
+
+    return file_name;
 }

@@ -3,13 +3,13 @@
 
 #include "token.h"
 
-typedef struct Node {
+typedef struct Node{
     Value_t value;
     Type_t type;
     Node* left;
     Node* right;
     Node* parent;
-};
+}Node;
 
 
 typedef struct {

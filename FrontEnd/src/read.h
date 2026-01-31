@@ -4,9 +4,8 @@
 #include "token.h"
 #include "node.h"
 
-#define SyntaxError longjmp(Error, 1)
-
 const Value_t noValue = {.num = 0};
+static Node* errorNode = NodeInit(Error, noValue, NULL, NULL, NULL);
 
 Node* GetTree(TArray* array);
 

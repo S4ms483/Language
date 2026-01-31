@@ -11,11 +11,14 @@ int main(int argc, char** argv) {
     TArray* array = Lexer(argc, argv);
 
     Node* root = GetTree(array);  
-VisualDump(root, 1);
+// VisualDump(root, 1);
 
-    FileOutput(root, "src/tree.txt");
+    if (root){
+        char* output_file = GetOutputFileName();
+        FileOutput(root, output_file);
+        NodeDestroy(&root);
+
+    }
 
     TokenArrayDestroy(&array);
-
-    NodeDestroy(&root);
 }

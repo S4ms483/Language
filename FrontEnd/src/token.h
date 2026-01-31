@@ -27,6 +27,7 @@ typedef enum
     Num, 
     Var,
     Undef,
+    Error
 }Type_t;
 
 

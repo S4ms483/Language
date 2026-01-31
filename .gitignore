@@ -8,3 +8,5 @@ BackEnd/Back
 .git copy/refs
 .git copy/COMMIT_EDITMSG
 .git copy
+FrontEnd/log
+FrontEnd/obj
