@@ -56,4 +56,4 @@ void VisualDump(Node* root, int n_dump);
 
 Пример построенного дерева:
 
-![alt text](readme_images/dump1.svg)
+![alt text](readme_images/dump1.png)
